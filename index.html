@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <title>Mapa de AGEBS - Plotly.js</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link
+      rel="icon"
+      sizes="192x192"
+      type="image/png"
+      href="./images/64659c_af90e3c73fca426b80a080f2958c4a97%7Emv2.png"
+    >
+
+		<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/maps.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+
+  </head>
+
+  <body>
+
+    <div id="overlay" class="overlay">
+      <div class="spinner-grow text-white" role="status" style="width: 3rem; height: 3rem;">
+        <span class="sr-only">Cargando...</span>
+      </div>
+    </div>
+
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar" class="">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+		  			<i class="fa fa-bars"></i>
+		    		<span class="sr-only">Toggle Menu</span>
+		    	</button>
+				</div>
+				<div class="p-4 pt-5">
+	  			<h1><a class="logo">GeoStats</a></h1>
+        	<ul class="list-unstyled components mb-5">
+        		<li class="active">
+          		<a>Home</a>
+      			</li>
+
+            <li>
+              <a
+                href="#pageChart"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Charts
+              </a>
+              <ul class="collapse list-unstyled" id="pageChart">
+                <li>
+                  <a href="#" onclick="loadChart()">Chart 1</a>
+                </li>
+                <li>
+                  <a href="#">Chart 2</a>
+                </li>
+                <li>
+                  <a href="#">Chart 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#pageMap"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Maps
+              </a>
+              <ul class="collapse list-unstyled" id="pageMap">
+                <li><a href="#" onclick="showAll()">Map 1</a></li>
+                <li><a href="#" onclick="loadCityNL()">Map 2</a></li>
+                <li><a href="#" onclick="loadAgebNL()">Map 3</a></li>
+                <li><a href="#" onclick="loadAgebFilterNL()">Mapa 4</a></li>
+                <li><a href="#" onclick="showPopulation()">Mapa 5</a></li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#pageTable"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Tables
+              </a>
+              <ul class="collapse list-unstyled" id="pageTable">
+                <li>
+                  <a href="#">Table 1</a>
+                </li>
+                <li>
+                  <a href="#">Table 2</a>
+                </li>
+                <li>
+                  <a href="#">Table 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#pageFilter"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Filtros
+              </a>
+              <ul class="collapse list-unstyled" id="pageFilter">
+                <li>
+                  <a href="#">Campo 1</a>
+                </li>
+                <li>
+                  <a href="#">Campo 2</a>
+                </li>
+                <li>
+                  <a href="#">Campo 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#pageLayer"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Capas
+              </a>
+              <ul class="collapse list-unstyled" id="pageLayer">
+                <li>
+                  <a href="#">Capa 1</a>
+                </li>
+                <li>
+                  <a href="#">Capa 2</a>
+                </li>
+                <li>
+                  <a href="#">Capa 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#pageFilter"
+                data-toggle="collapse"
+                aria-expanded="false"
+                class="dropdown-toggle"
+                >Filtros de Factores
+              </a>
+              <ul class="collapse list-unstyled" id="pageFilter">
+                <li>
+                  <a href="#">Factor 1</a>
+                </li>
+                <li>
+                  <a href="#">Factor 2</a>
+                </li>
+                <li>
+                  <a href="#">Factor 3</a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <!-- CAPAS -->
+              <!-- FILTROS (nivel socioeconomico)-->
+              <a
+                onclick="showModal()"
+                data-bs-toggle="modal"
+                data-bs-target="#miModalBootstrap"
+                >Config
+              </a>
+
+              <!--
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#miModalBootstrap"
+                >Abrir Modal de Bootstrap
+              </button>
+              -->
+
+            </li>
+        		<li>
+        			<a>About</a>
+        		</li>
+	          <li>
+              <a>Contact</a>
+	          </li>
+        	</ul>
+					<!--
+	        <div class="mb-5">
+						<h3 class="h6">Subscribe for newsletter</h3>
+						<form action="#" class="colorlib-subscribe-form">
+		      		<div class="form-group d-flex">
+		  					<div class="icon"><span class="icon-paper-plane"></span></div>
+      					<input type="text" class="form-control" placeholder="Enter Email Address">
+	      			</div>
+		    		</form>
+					</div>
+		      <div class="footer">
+		      	<p>
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
+						</p>
+		      </div>
+					-->
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+      	</div>
+    	</nav>
+
+			<!-- Page Content  -->
+    	<!--
+    	<div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Sidebar #02</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    	</div>
+    	-->
+
+    	<div class="container">
+
+        <div id="charts" style="display:none;">
+          <h1>Ejemplo de Gráfico Renderizado con Plotly.js</h1>
+          <div id="first-chart"></div>
+        </div>
+
+        <div id="maps">
+          <h1>🇲🇽 Mapa de AGEBS</h1>
+          <p
+            class="subtitle"
+            >Visualización con delimitaciones reales desde archivos GeoJSON locales
+          </p>
+          <div id="map"></div>
+        </div>
+
+        <div class="controls">
+          <button onclick="loadChart()">Ver Primer Grafico</button>
+          <button onclick="showAll()">Ver Todos los Estados</button>
+          <button onclick="loadCityNL()">Cargar Municipios Nuevo León</button>
+          <button onclick="loadAgebNL()">Cargar AGEBS Nuevo León</button>
+          <button onclick="loadAgebFilterNL()">Cargar AGEBS Nuevo León</button>
+          <button onclick="showPopulation()">Datos de Población</button>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#miModalBootstrap"
+            >Abrir Modal de Bootstrap
+          </button>
+        </div>
+
+        <div
+          id="loading"
+          style="display:none;"
+          >Cargando delimitaciones...
+        </div>
+
+        <div
+          tabindex="-1"
+          class="modal fade"
+          id="miModalBootstrap"
+          aria-hidden="true"
+          aria-labelledby="miModalLabel"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="miModalLabel">Configuracion de Mapas</h5>
+              </div>
+              <div class="modal-body">
+
+                <div class="modal-body">
+                  <h6 class="fs-5">Filtros</h6>
+                  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">Campo 1</option>
+                    <option value="2">Campo 2</option>
+                    <option value="3">Campo 3</option>
+                  </select>
+
+                  <hr>
+                  <h6 class="fs-5">Capas</h6>
+                  <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btncheck1">Capa 1</label>
+
+                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btncheck2">Capa 2</label>
+
+                    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btncheck3">Capa 3</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--
+        <div class="info-box">
+          <strong>📝 Instrucciones:</strong>
+          <br><br>
+          Para agregar tus archivos GeoJSON descargados de GitHub:
+          <br><br>
+          1. Descarga el archivo <code>19-NL.geojson</code> del repositorio
+          <br>
+          2. Colócalo en la misma carpeta que este archivo HTML (o en una subcarpeta)
+          <br>
+          3. Busca en el código la línea marcada con <span class="highlight">👉 EDITA AQUÍ</span>
+          <br>
+          4. Reemplaza la ruta por la ubicación de tu archivo
+          <br><br>
+          <strong>Ejemplo de rutas:</strong>
+
+          <div class="code-box">
+            // Si está en la misma carpeta:<br>
+            // const RUTA_GEOJSON_NL = './19-NL.geojson';<br>
+            <br>
+            // Si está en una subcarpeta 'data':<br>
+            // const RUTA_GEOJSON_NL = './data/19-NL.geojson';<br>
+            <br>
+            // Si usas un servidor local en puerto 8000:<br>
+            // const RUTA_GEOJSON_NL = 'http://localhost:8000/19-NL.geojson';
+          </div>
+        </div>
+        -->
+
+    	</div>
+
+		</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/plotly.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/maps.js"></script>
+
+    <!--
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    -->
+
+  </body>
+</html>
